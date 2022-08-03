@@ -2,8 +2,8 @@
 const books = document.querySelector(".books");
 const addNewBook = document.querySelector(".add-new");
 const list = document.querySelector(".list");
-const form = document.querySelector("form");
 const main = document.querySelector("main");
+const form = document.querySelector("form");
 
 
 class Book {
