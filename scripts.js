@@ -6,6 +6,45 @@ const main = document.querySelector("main");
 const form = document.querySelector("form");
 
 
+addNewBook.addEventListener("click", () => {
+  displayLibrary.hide(addNewBook);
+  displayLibrary.hide(main);
+  displayLibrary.showBlock(form);
+});
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const title = document.querySelector("#title").value;
+  const author = document.querySelector("#author").value;
+  const pages = document.querySelector("#pages").value;
+  const publisher = document.querySelector("#publisher").value;
+  const isRead = document.querySelector("#read").checked;
+
+  const newBook = new Book(
+    title,
+    author,
+    pages,
+    publisher,
+    isRead ? "read" : "not read"
+  );
+  library.addBookToLibrary(newBook);
+  library.displayLibrary();
+  displayLibrary.hide(form);
+  displayLibrary.showBlock(main);
+  displayLibrary.showBlock(list);
+  displayLibrary.showBlock(addNewBook);
+});
+
+books.addEventListener("click", (e) => {
+  if (e.target.matches("button.is-read")) { 
+    library.toggleRead(e);
+  }
+
+  if (e.target.matches("button#delete")) {
+    library.deleteBook(e);
+  }
+});
+
 class Book {
   
   constructor(title, author, pages, publisher, read) {
@@ -15,7 +54,6 @@ class Book {
     this.publisher = publisher;
     this.read = read;
   }
-
 
 }
 
@@ -51,6 +89,7 @@ class Library {
           isRead: "not read",
         },
       ];
+
   }
 
   addBookToLibrary(book) {
@@ -93,66 +132,31 @@ class Library {
     this.displayLibrary();
   }
 
+  toggleRead(e) {
+    let content = e.target.textContent;
+    content.trim() == "not read"
+      ? (e.target.textContent = "read")
+      : (e.target.textContent = "not read");
+  }
+
 }
+
 let library = new Library();
+
 class init{
     constructor(){
         library.displayLibrary();
     }
+
+    showBlock(element) {
+      element.style.display = "block";
+    }
+    
+    hide(element) {
+      element.style.display = "none";
+    }
+
 }
 
-addNewBook.addEventListener("click", () => {
-  hide(addNewBook);
-  hide(main);
-  showBlock(form);
-});
-
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const title = document.querySelector("#title").value;
-  const author = document.querySelector("#author").value;
-  const pages = document.querySelector("#pages").value;
-  const publisher = document.querySelector("#publisher").value;
-  const isRead = document.querySelector("#read").checked;
-
-  const newBook = new Book(
-    title,
-    author,
-    pages,
-    publisher,
-    isRead ? "read" : "not read"
-  );
-  library.addBookToLibrary(newBook);
-  library.displayLibrary();
-  hide(form);
-  showBlock(main);
-  showBlock(list);
-  showBlock(addNewBook);
-});
-
-books.addEventListener("click", (e) => {
-  if (e.target.matches("button.is-read")) {
-    toggleRead(e);
-  }
-
-  if (e.target.matches("button#delete")) {
-    library.deleteBook(e);
-  }
-});
-
-function toggleRead(e) {
-  let content = e.target.textContent;
-  content.trim() == "not read"
-    ? (e.target.textContent = "read")
-    : (e.target.textContent = "not read");
-}
-
-function showBlock(element) {
-  element.style.display = "block";
-}
-
-function hide(element) {
-  element.style.display = "none";
-}
   
-new init();
+let  displayLibrary =  new init();

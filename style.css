@@ -98,8 +98,8 @@ button#delete:hover{
 
 form {
     display: none;
-    padding: 20px;
-    width: 30%;
+    padding: 1rem;
+    width: 40%;
     margin: 10px auto;
     background-color: #fff;
     border: 3px solid rgb(119, 56, 33);
